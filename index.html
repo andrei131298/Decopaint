@@ -1,0 +1,215 @@
+<?php
+
+$servername = "localhost";
+$username = "id10059977_dbmaciuca";
+$password = "andrei13";
+$database = "id10059977_db12345";
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch(PDOException $e) {    
+    echo "Connection failed: " . $e->getMessage();
+    }
+	
+$ftp_server = "files.000webhost.com";
+$ftp_user = "maciuca";
+$ftp_pass = "andrei13";
+
+// set up a connection or die
+$conn_id = ftp_connect($ftp_server) or die("Couldn't connect to $ftp_server"); 
+
+// try to login
+if (!@ftp_login($conn_id, $ftp_user, $ftp_pass)) 
+{
+    echo "Couldn't connect as $ftp_user\n";	
+}
+
+
+// Start nume director (Portofoliu)
+$files = glob("portofoliu/photos/*");
+$directories = array();
+$fiverandom = array();
+$i=0;
+foreach($files as $file)
+{
+	list(, , $c) = explode("/", $file);
+	if(is_dir($file))
+	{
+		array_push($directories, $c);
+		$i=$i+1;
+	}
+}
+
+$j=0;
+while($j<=4)
+{
+	$r=rand(0, $i-1);
+	if ($j==0): array_push($fiverandom, $r); $j=$j+1;
+	endif;
+	foreach($fiverandom as $randomnumber)
+		{
+			if ($randomnumber == $r): $check = false; break;
+			else: $check = true;
+			endif;
+		}
+	if ($check == true): array_push($fiverandom, $r); $j=$j+1;
+	endif;	
+}	
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<title>Decopaint - Decoratiuni interioare</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="styles.css" />
+<script type="text/javascript" src="1.js"></script>
+<script type="text/javascript" src="2.js"></script>
+<script type="text/javascript" src="3.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#menu > ul').dropotron({
+			mode: 'fade',
+			globalOffsetY: 11,
+			offsetY: -15
+		});
+		$('#slider').slidertron({
+			viewerSelector: '.viewer',
+			indicatorSelector: '.indicator span',
+			reelSelector: '.reel',
+			slidesSelector: '.slide',
+			speed: 'slow',
+			advanceDelay: 4000
+		});
+	});
+</script>
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+	</div>
+	<div id="menu">
+		<ul>
+			<li><a href="index.php">Acasa</a></li>
+			<li><a href="Despre Noi.php">Despre noi</a></li>
+			<li class="first">
+				<span class="opener">Portofoliu<b></b></span>
+				<ul>
+					<li>
+						<span>Galerie Foto<b></b></span>
+						<ul>
+							<?php for($j=0;$j<=$i-1;$j++)
+							{
+								echo '<li><a href="portofoliu.php?dir='.$directories[$j].'">'.$directories[$j].'</a></li>';
+							}
+							?>
+						</ul>
+					</li>
+					<li><a href="#">Galerie Video</a></li>
+				</ul>
+			</li>
+			<li class="last"><a href="Contact.php">Contact</a></li>
+		</ul>
+		<br class="clearfix" />
+	</div>
+	<div id="slider">
+		<div class="viewer">
+			<div class="reel">
+				<div class="slide">
+					<img src="images/slide01.jpg" alt="" />
+				</div>
+				<div class="slide">
+					<img src="images/slide02.jpg" alt="" />
+				</div>
+				<div class="slide">
+					<img src="images/slide03.jpg" alt="" />
+				</div>
+				<div class="slide">
+					<img src="images/slide04.jpg" alt="" />
+				</div>
+				<div class="slide">
+					<img src="images/slide05.jpg" alt="" />
+				</div>
+			</div>
+		</div>
+		<div class="indicator">
+			<span>1</span>
+			<span>2</span>
+			<span>3</span>
+			<span>4</span>
+			<span>5</span>
+		</div>
+	</div>
+	<div id="page">
+		<div id="content">
+			<div class="box">
+				<h2>DECOPAINT - Decoratiuni interioare si exterioare</h2>
+				<p>
+					DecoPaint se ocupa decorarea si schimbarea infatisarii oricarei locuinte. Pentru mai multe detalii nu ezitati sa sunati.
+				</p>
+			</div>
+			<div class="box" id="content-box1">
+				<h3>Despre lucrari</h3>
+				<ul class="section-list">
+					<li class="first">
+						<img class="pic alignleft" src="images/pic01.jpg" width="70" height="70" alt="" />
+						<span>In realizarea lucrarilor efectuate folosim materiale la cea mai inalta calitate</span>
+					</li>
+					<li>
+						<img class="pic alignleft" src="images/pic02.jpg" width="70" height="70" alt="" />
+						<span>Ne dam toata silinta pentru a satisface dorintele clientilor indiferent de idei</span>
+					</li>
+					<li class="last">
+						<img class="pic alignleft" src="images/pic03.jpg" width="70" height="70" alt="" />
+						<span>Gama de servicii oferita de DECOPAINT este una variata; nu ne limitam doar la decoratiuni</span>
+					</li>
+				</ul>
+			</div>
+			<div class="box" id="content-box2">
+				<h3>Alte servicii</h3>
+				<p>
+					Gama de servicii oferita de DECOPAINT este una variata; nu ne limitam doar la decoratiuni.
+				</p>
+				<ul>
+					<li>Tablouri</li>
+					<li>Web design</li>
+					<li>Sculpturi</li>
+					<li>Decoratiuni gradini</li>
+				</ul>
+			</div>
+			<br class="clearfix" />
+		</div>
+		<div id="sidebar">
+			<div class="box">
+				<h3>Portofoliu</h3>
+				<ul class="list">
+					<li class="first"><a href="portofoliu.php?dir=<?php echo $directories[$fiverandom[0]]; ?>"><?php echo $directories[$fiverandom[0]]; ?></a></li>
+					<li><a href="portofoliu.php?dir=<?php echo $directories[$fiverandom[1]]; ?>"><?php echo $directories[$fiverandom[1]]; ?></a></li>
+					<li><a href="#"><?php echo $directories[$fiverandom[2]]; ?></a></li>
+					<li><a href="#"><?php echo $directories[$fiverandom[3]]; ?></a></li>
+					<li class="last"><a href="#"><?php echo $directories[$fiverandom[4]]; ?></a></li>
+				</ul>
+			</div>
+		</div>
+		<br class="clearfix" />
+	</div>
+	<div id="page-bottom">
+		<div id="page-bottom-sidebar">
+			<ul class="list">
+				<li class="first"><a href="index.php">Acasa</a></li>
+				<li><a href="Despre Noi.php">Despre noi</a></li>
+				<li><a href="Portofoliu.php">Portofoliu</a></li>
+				<li class="Contact.php"><a href="#">Contact</a></li>
+			</ul>
+		</div>
+		<br class="clearfix" />
+	</div>
+</div>
+<div id="footer">
+	&copy; Website designed by <a href="http://templated.co" rel="nofollow">DECOPAINT</a>. Photos by <a href="http://fotogrph.com/">DECOPAINT</a>.
+</div>
+</body>
+</html>
